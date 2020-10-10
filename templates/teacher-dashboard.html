@@ -1,0 +1,350 @@
+{% extends 'register.html' %}
+
+{% block title %}
+  Quiz System - Teacher Dashboard
+{% endblock %}
+
+{% block body %}
+  <div class="main-body-content">
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-4 col-sm-12 col-lg-4">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <b>Teacher Dashboard</b>
+            </div>
+            <div class="panel-body">
+              <ul class="list-unstyled sidebar">
+                <a href="{{url_for('teacher_dashboard', choice = 'CreateQuiz')}}">
+                    <i class="glyphicon glyphicon-pencil"></i> &nbsp;&nbsp; Create Quiz
+                </a>
+                <a href="{{url_for('teacher_dashboard', choice = 'ViewCreatedQuiz')}}">
+                    <i class="glyphicon glyphicon-tasks"></i> &nbsp;&nbsp; View Created Quiz
+                </a>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-8 col-sm-12 col-lg-8">
+          <div class="panel panel-primary">
+
+            <!-- Start Create Quiz Section  -->
+            {% if request.path == '/teacher_dashboard/CreateQuiz' %}
+               <div class="panel-heading">
+                 <b>Create Quiz</b>
+               </div>
+               <div class="panel-body">
+
+                 {% if session['create_quiz_msg'] %}
+                 <div class="alert alert-danger">{{ session['create_quiz_msg'] }}</div>
+                 {% endif %}
+                 <form action="{{ url_for('teacher_dashboard', choice = 'CreateQuiz') }}" method="post">
+
+                   <div class="row">
+                     <div class="col-md-6">
+                       <div class="form-group">
+                         <input type="text" name="title" placeholder="Title" class="form-control" required>
+                       </div>
+                     </div>
+
+                     <div class="col-md-6">
+                       <div class="form-group">
+                         <select class="form-control" name="subject" required>
+                           <option value="">Select Subject</option>
+                           <option value="science">Science</option>
+                           <option value="general knowledge">General Knowledge</option>
+                           <option value="aptitude">Aptitude</option>
+                           <option value="english grammer">English Grammer</option>
+                           <option value="mathematics">Mathematics</option>
+                           <option value="computer">Computer</option>
+                         </select>
+                       </div>
+                     </div>
+                   </div>
+
+                   <div class="row">
+                     <div class="col-md-6">
+                       <input type="number" name="noquestions" placeholder="No Questions" class="form-control" min="1" required>
+                     </div>
+                     <div class="col-md-6">
+                       <input type="number" name="quiz_time" placeholder="Time (in minutes)" class="form-control" min="2" required>
+                     </div>
+                   </div>
+
+                   <br>
+                   <div class="row">
+                     <div class="col-md-12">
+                       <input type="submit" value="Add Questions" class="btn btn-primary">
+                     </div>
+                   </div>
+                 </form>
+
+               </div>
+
+            <!-- End Create Quiz Section  -->
+
+            <!-- Start Add Questions Section  -->
+
+            {% elif request.path == '/teacher_dashboard/AddQuestions' %}
+               <div class="panel-heading">
+                 <b>Add Questions</b>
+               </div>
+               <div class="panel-body">
+
+                 <div class="row">
+                   <div class="col-md-12 col-sm-12 col-lg-12">
+                     <div class="table-responsive">
+                       <table class="table">
+                         {% if session['response'] %}
+                            <b>{{ session['response'] }}</b>
+                         {% endif %}
+                         <caption><b>Quiz Details</b></caption>
+                         <thead>
+                           <tr>
+                             <th>Title</th>
+                             <th>Subject</th>
+                             <th>No. of Questions</th>
+                             <th>Quiz Time</th>
+                           </tr>
+                         </thead>
+                         <tbody>
+                           <tr>
+                             <td>{{ session['quiz_temp_details']['title'] }}</td>
+                             <td>{{ session['quiz_temp_details']['subject'] }}</td>
+                             <td>{{ session['quiz_temp_details']['no_questions'] }}</td>
+                             <td>{{ session['quiz_temp_details']['quiz_time'] }} minutes</td>
+                           </tr>
+                         </tbody>
+                       </table>
+                     </div>
+                   </div>
+                 </div>
+
+                 <div class="row">
+                   <div class="col-md-12 col-sm-12 col-lg-12">
+                     <form action="{{url_for('teacher_dashboard', choice = 'AddQuestions')}}" method="post">
+
+                          <div class="row">
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                              <div class="form-group">
+                                <label name="question_content">Question
+                                  {% if session['question_no'] %}
+                                      {{session['question_no']}}.
+                                  {% else %}
+                                      {{ "1" }}.
+                                  {% endif %}
+                                </label>
+                                <textarea name="question_content" rows="5" cols="20" class="form-control" required></textarea>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6 col-sm-12 col-lg-6">
+                              <div class="form-group">
+                                <label name="option1">Option 1.</label>
+                                <input type="text" name="option1" placeholder="Enter option 1" class="form-control" required>
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                              <div class="form-group">
+                                <label name="option2">Option 2.</label>
+                                <input type="text" name="option2" placeholder="Enter option 2" class="form-control" required>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6 col-sm-12 col-lg-6">
+                              <div class="form-group">
+                                <label name="option3">Option 3.</label>
+                                <input type="text" name="option3" placeholder="Enter option 3" class="form-control" required>
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                              <div class="form-group">
+                                <label name="option4">Option 4.</label>
+                                <input type="text" name="option4" placeholder="Enter option 4" class="form-control" required>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                              <div class="form-group">
+                                <select name="answer" class="form-control" required>
+                                  <option value="">Select Answer</option>
+                                  <option value="1">Option 1</option>
+                                  <option value="2">Option 2</option>
+                                  <option value="3">Option 3</option>
+                                  <option value="4">Option 4</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+                          {% if session['question_no'] == session['quiz_temp_details']['no_questions'] %}
+                              <input type="submit" value="Submit" class="btn btn-primary">
+                          {% else %}
+                              <input type="submit" value="Add Next Question" class="btn btn-primary">
+                           {% endif %}
+
+
+                     </form>
+                   </div>
+                 </div>
+
+               </div>
+
+            <!-- End Add Questions Section  -->
+
+            <!-- Start View Created Quiz Section  -->
+            {% elif request.path == '/teacher_dashboard/ViewCreatedQuiz' %}
+
+               <div class="panel-heading">
+                 <b>View Created Quizes</b>
+               </div>
+               <div class="panel-body">
+                 {% if session['create_quiz_perm_msg'] %}
+                   <div class="alert alert-info">{{ session.pop('create_quiz_perm_msg', None) }}</div>
+                 {% elif session['teacher_dashboard_DeleteQuiz_msg'] %}
+                      <div class="alert alert-info">{{ session.pop('teacher_dashboard_DeleteQuiz_msg', None) }}</div>
+                 {% endif %}
+
+                 {% if session['ViewCreatedQuiz_err_msg'] %}
+                   <div class="alert alert-info">{{ session['ViewCreatedQuiz_err_msg'] }}</div>
+                   <a href="{{url_for('teacher_dashboard', choice='CreateQuiz')}}" class="btn btn-primary"><b>Go to Create Quiz <i class="glyphicon glyphicon-chevron-right"></i></b></a>
+
+                 {% endif %}
+
+                 {% if session['ViewCreatedQuiz_data'] %}
+
+
+                   <div class="table-responsive">
+                       <table class="table">
+                           <thead>
+                             <tr>
+                                 <th>Quiz ID</th>
+                                 <th>Title</th>
+                                 <th>Subject</th>
+                                 <th>No. Questions</th>
+                                 <th>Quiz Time</th>
+                                 <th></th>
+                             </tr>
+                           </thead>
+                           <tbody>
+                             {% for row in session.pop('ViewCreatedQuiz_data',None) %}
+                                <tr>
+                                    <td>{{ row[0] }}</td>
+                                    <td>{{ row[1] }}</td>
+                                    <td>{{ row[2] }}</td>
+                                    <td>{{ row[3] }}</td>
+                                    <td>{{ row[4] }} minutes</td>
+                                    <td>
+                                        <a href="{{url_for('teacher_dashboard', choice='ViewDetails', quiz_id=row[0])}}" class="btn btn-success btn-xs">View Details</a>
+
+                                        <a href="{{url_for('teacher_dashboard', choice='DeleteQuiz', quiz_id = row[0])}}" class="btn btn-danger btn-xs">Delete</a>
+                                    </td>
+                                </tr>
+                             {% endfor %}
+                           </tbody>
+                       </table>
+                   </div>
+                 {% endif %}
+                 
+               </div>
+
+            <!-- End View Created Quiz Section  -->
+
+            <!-- Start View Details Quiz Section  -->
+            {% elif request.path == '/teacher_dashboard/ViewDetails' %}
+
+               <div class="panel-heading">
+                   <b>View Details</b>
+               </div>
+               <div class="panel-body">
+                   <a href="{{url_for('teacher_dashboard', choice='ViewCreatedQuiz')}}" class="btn btn-primary"><b><i class="glyphicon glyphicon-arrow-left"></i> &nbsp; Go Back</b></a><br> <br>
+                   {% if session['ViewDetails_err_msg'] %}
+                      <div class="alert alert-info">{{session.pop('ViewDetails_err_msg')}}</div>
+
+                   {% elif session['ViewDetails_quiz_details'] %}
+                      <div class="table-responsive">
+                          <table class="table">
+                              <thead>
+                                <tr>
+                                    <th>Quiz ID</th>
+                                    <th>Title</th>
+                                    <th>Subject</th>
+                                    <th>No. Questions</th>
+                                    <th>Quiz Time</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                     <td>{{session['ViewDetails_quiz_details']['quiz_id']}}</td>
+                                     <td>{{session['ViewDetails_quiz_details']['title']}}</td>
+                                     <td>{{session['ViewDetails_quiz_details']['subject']}}</td>
+                                     <td>{{session['ViewDetails_quiz_details']['no_questions']}}</td>
+                                     <td>{{session['ViewDetails_quiz_details']['quiz_time']}} minutes</td>
+                                 </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      {% if session['ViewDetails_quiz_questions'] %}
+                         {% for question in session['ViewDetails_quiz_questions'] %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b>Question {{question['question_no']}}.</b>
+                                    <p>{{question['question_content']}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <b>(i)</b> &nbsp;{{question['option1']}}
+                                </div>
+                                <div class="col-md-6">
+                                    <b>(ii)</b> &nbsp;{{question['option2']}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <b>(iii)</b> &nbsp;{{question['option3']}}
+                                </div>
+                                <div class="col-md-6">
+                                    <b>(iv)</b> &nbsp;{{question['option4']}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b style="color: green;">Answer: </b>
+                                    {% if question['answer'] == 1 %}
+                                        <b>(i)</b>
+                                    {% elif question['answer'] == 2 %}
+                                        <b>(ii)</b>
+                                    {% elif question['answer'] == 3 %}
+                                        <b>(iii)</b>
+                                    {% elif question['answer'] == 4 %}
+                                        <b>(iv)</b>
+                                    {% endif %}
+                                </div>
+                            </div><br>
+                         {% endfor %}
+                      {% endif %}
+                   {% endif %}
+               </div>
+
+            {% endif %}
+            <!-- End View Details Quiz Section  -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

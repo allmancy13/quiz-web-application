@@ -1,0 +1,112 @@
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 110px;
+  box-shadow: 0px 10px 8px -2px rgba(50,50,50,0.5);
+  background-color: #337ab7;
+}
+.header > h2{
+   text-align: center;
+   color: #ffffff;
+   font-size: 28px;
+   position: relative;
+   top: 25px;
+}
+
+.header > span {
+  position: relative;
+  color: #ffffff;
+  top: -40px;
+  margin-right: 20px;
+}
+
+
+.logout-btn > a {
+  position: relative;
+  top: -15px;
+  background-color: #ffffff;
+  opacity: 0.85;
+  color: #337ab7;
+  padding: 5px 10px 5px 10px;
+  border-radius: 5px;
+}
+.logout-btn > a:hover {
+  text-decoration: none;
+  color: #337ab7;
+  background-color: #ffffff;
+  opacity: 1;
+}
+.main-body-content {
+  margin-top: 130px;
+}
+
+/* start css for register page */
+.register-form-container {
+
+  max-width: 450px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  box-shadow: 0px 3px 8px 5px rgba(50,50,50,0.5);
+}
+
+.register-form {
+  padding: 10px 30px 20px 30px;
+}
+.register-form > h3 {
+  color: #337ab7;
+}
+
+/* end css for register page */
+
+
+.student_dashboard_take_quiz_input_label {
+   font-weight: normal;
+   cursor: pointer;
+}
+
+/* Start Sidebar  */
+.sidebar > a {
+  float: left;
+  width: 100%;
+  background-color: #337ab7;
+  color: #ffffff;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px 30px 8px 30px;
+  border-radius: 3px;
+  opacity: 0.85;
+}
+.sidebar > a:hover {
+  text-decoration: none;
+  color: #ffffff;
+  opacity: 1;
+}
+/* End Sidebar  */
+
+.panel.panel-primary {
+  box-shadow: 0px 3px 8px 5px rgba(50,50,50,0.5);
+  border: none;
+}
+
+
+/* Start student dashboard submit quiz css */
+.student_dashboard_SubmitQuiz_ScoreBox_container {
+  position:absolute;
+  margin-left: auto;
+  maegin-right: auto;
+}
+.student_dashboard_SubmitQuiz_ScoreBox {
+   padding: 40px;
+   border-radius: 48%;
+   color: #ffffff;
+   background-color: #337ab7;
+   box-shadow: 0px 3px 8px 5px rgba(50,50,50,0.5);
+   font-size: 19px;
+   font-weight: bold;
+}
+/* End student dashboard submit quiz css */

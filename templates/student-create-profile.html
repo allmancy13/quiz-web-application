@@ -1,0 +1,26 @@
+{% extends 'register.html' %}
+{% block title %}
+   Quiz System - Create Student Profile
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12 col-sm-12 col-lg-12">
+
+              <!-- Start form container -->
+              <div class="register-form-container">
+                  <form action="url_for('CreateStudentProfile')" method="post">
+                      <h3>Create Student profile</h3>
+                      <div class="form-group">
+                          <label name="mobile">Mobile</label>
+                          <input type="number" name="mobile" minlength="10", maxlength="10" required>
+                      </div>
+                  </form>
+              </div>
+              <!-- End form container -->
+
+          </div>
+      </div>
+  </div>
+{% endblock %}

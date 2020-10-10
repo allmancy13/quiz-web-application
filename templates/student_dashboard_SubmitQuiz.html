@@ -1,0 +1,72 @@
+{% extends 'register.html' %}
+
+{% block title %}
+   Quiz Web App - Submit Quiz
+{% endblock %}
+
+{% block body %}
+   <div class="main-body-content">
+       <div class="container">
+           <div class="row">
+               <div class="col-md-4">
+                   <div class="panel panel-primary">
+                  <div class="panel-heading"><b>Student Dashboard</b></div>
+                  <div class="panel-body">
+                      <ul class="list-unstyled sidebar">
+                          <a href=""><i class="glyphicon glyphicon-user"></i> &nbsp; My Quizes</a>
+                          <a href="{{url_for('student_dashboard', choice = 'ViewQuizes')}}"><i class="glyphicon glyphicon-tasks"></i> &nbsp; View Quizes</a>
+                      </ul>
+                  </div>
+              </div>
+               </div>
+               <div class="col-md-8">
+                   <div class="panel panel-primary">
+                       <div class="panel-heading">
+                           <b>Quiz Result</b>
+                       </div>
+                       <div class="panel-body">
+                          {% if student_dashboard_SubmitQuiz_succ_msg %}
+                               <div class="alert alert-info">{{ student_dashboard_SubmitQuiz_succ_msg }}</div> <br><br>
+                               <div class="student_dashboard_SubmitQuiz_ScoreBox_container">
+                                   <b>You Scored: &nbsp; &nbsp; &nbsp; </b> <span class="student_dashboard_SubmitQuiz_ScoreBox">{{ student_marks + "/" + total_marks }}</span>
+                               </div>
+                               <br><br><br><br>
+                               <div class="table-responsive">
+                                  <table class="table">
+                                      <caption><b>Quiz Details</b></caption>
+                                      {% for quiz_detail in quiz_details %}
+                                         <thead>
+                                           <tr>
+                                               <th>Quiz ID</th>
+                                               <th>Title</th>
+                                               <th>Subject</th>
+                                               <th>No. Questions</th>
+                                               <th>Quiz Time</th>
+                                               <th>Creator Name</th>
+                                           </tr>
+                                           <tr>
+                                               <td>{{ quiz_detail['quiz_id'] }}</td>
+                                               <td>{{ quiz_detail['title'] }}</td>
+                                               <td>{{ quiz_detail['subject'] }}</td>
+                                               <td>{{ quiz_detail['no_questions'] }}</td>
+                                               <td>{{ quiz_detail['quiz_time'] }}</td>
+                                               <td>{{ quiz_detail['creator_name'] }}</td>
+                                           </tr>
+                                         </thead>
+                                      {% endfor %}
+                                  </table>
+                              </div>
+                               <a href="{{url_for('student_dashboard', choice = 'ViewQuizes')}}" class="btn btn-primary"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp; <b>Go back to Quizes</b></a>
+                          {% else %}
+                           <div class="alert alert-info">{{ student_dashboard_SubmitQuiz_err_msg }}</div> <br>
+                             <a href="{{url_for('student_dashboard', choice = 'MyQuizes')}}" class="btn btn-primary">
+                                 <b><i class="glyphicon glyphicon-arrow-left"></i> &nbsp; Go Back to My Quizes to View Result</b>
+                             </a>
+                          {% endif %}
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+{% endblock %}

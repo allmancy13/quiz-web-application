@@ -1,0 +1,152 @@
+{% extends 'register.html' %}
+{% block title %}
+   Quiz Web App - Take Quiz
+{% endblock %}
+
+{% block body %}
+
+   <div class="main-body-content">
+
+      <div class="container">
+      <div class="row">
+          <!-- start sidebar  -->
+          <div class="col-md-4 col-lg-4 col-sm-12">
+              {% if session['register_msg'] %}
+                 <div>{{ session['register_msg'] }}</div>
+              {% endif %}
+              <div class="panel panel-primary">
+                  <div class="panel-heading"><b>Student Dashboard</b></div>
+                  <div class="panel-body">
+                      <ul class="list-unstyled sidebar">
+                          <a href="{{url_for('student_dashboard', choice = 'MyQuizes')}}"><i class="glyphicon glyphicon-user"></i> &nbsp; My Quizes</a>
+                          <a href="{{url_for('student_dashboard', choice = 'ViewQuizes')}}"><i class="glyphicon glyphicon-tasks"></i> &nbsp; View Quizes</a>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+          <!-- end sidebar  -->
+
+          <!-- Start main section  -->
+          <div class="col-md-8 col-lg-8 col-sm-12">
+              <div class="panel panel-primary">
+                  <div class="panel-heading">
+                      <b>Take Quiz</b>
+                      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                      <b id="timer"></b>
+                      <a href="{{url_for('student_dashboard', choice='ViewQuizes')}}" id="viewquizes"></a>
+                  </div>
+                  <div class="panel-body">
+                     {% if TakeQuiz_err_msg %}
+                         {{ TakeQuiz_err_msg }} <br><br>
+                      <a href="{{url_for('student_dashboard', choice = 'ViewQuizes')}}" class="btn btn-primary"><b><i class="glyphicon glyphicon-arrow-left"></i>&nbsp; Go Back</b></a>
+                     {% else %}
+                         <script>
+                             var min = "{{quiz_details[0]['quiz_time']}}";
+                             var sec = 00;
+
+                             var interval = setInterval(function() {
+                                document.getElementById('timer').innerHTML = "Timer: " + min + ":" + sec;
+
+                                if (min === 0 & sec === 0){
+                                  document.getElementById('timer').innerHTML = 'Out of time.';
+                                  alert("You are out of time. Please take the quiz again and complete it within time.");
+                                  clearInterval(interval);
+                                  document.getElementById("viewquizes").click();
+                                }
+
+                                if (sec === 0 & min !== 0) {
+                                   sec = 60;
+                                   min = min - 1;
+                                }
+                                sec--;
+
+                             }, 1000);
+
+
+                             function CountDown() {
+                                i = setTimeout(showcontent, 1000*3)
+                             }
+
+                             function showcontent() {
+                                document.getElementById("demo").innerHTML = "hi";
+                             }
+
+
+                         </script>
+                         <!-- Start Show Quiz Details  -->
+                         {% for quiz_detail in quiz_details %}
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                    <b>Quiz ID: </b> {{ quiz_detail['quiz_id'] }}
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                    <b>Title: </b> {{ quiz_detail['title'] }}
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                    <b>Subject: </b> {{ quiz_detail['subject'] }}
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                    <b>No. Questions: </b> {{ quiz_detail['no_questions'] }}
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                    <b>Quiz Time: </b> {{ quiz_detail['quiz_time'] }} minutes
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                    <b>Creator Name: </b> {{ quiz_detail['creator_name'] }}
+                                </div>
+                            </div>
+                         {% endfor %}
+                         <!-- End show quiz details  -->
+
+                         <!-- Start show quiz questions  -->
+                          <form action="{{ url_for('student_dashboard', choice='SubmitQuiz') }}" method="post">
+                          {% for quiz_question in quiz_questions %}
+
+                             <br>
+                             <div class="row">
+                                 <div class="col-md-12">
+                                     <b>Question {{ quiz_question['question_no'] }}.</b> <br>
+                                     {{ quiz_question['question_content'] }}
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-6">
+                                     <label class="student_dashboard_take_quiz_input_label">
+                                         <input type="radio" name="{{ quiz_question['question_id'] }}" value="1" required> {{ quiz_question['option1'] }}
+                                     </label>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <label class="student_dashboard_take_quiz_input_label">
+                                         <input type="radio" name="{{ quiz_question['question_id'] }}" value="2" required> {{ quiz_question['option2'] }}
+                                     </label>
+                                 </div>
+                             </div>
+                             <div class="row">
+                                 <div class="col-md-6">
+                                     <label class="student_dashboard_take_quiz_input_label">
+                                         <input type="radio" name="{{ quiz_question['question_id'] }}" value="3" required> {{ quiz_question['option3'] }}
+                                     </label>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <label class="student_dashboard_take_quiz_input_label">
+                                         <input type="radio" name="{{ quiz_question['question_id'] }}" value="4" required> {{ quiz_question['option4'] }}
+                                     </label>
+                                 </div>
+                             </div>
+                          {% endfor %}
+                         <!-- End show quiz questions  -->
+                         <br>
+                         <input type="submit" value="Submit" class="btn btn-primary">
+                          </form>
+                     {% endif %}
+                  </div>
+              </div>
+          </div>
+          <!-- end main section -->
+
+      </div>
+  </div>
+
+  </div>
+
+{% endblock %}

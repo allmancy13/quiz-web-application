@@ -1,0 +1,73 @@
+{% extends 'register.html' %}
+
+{% block title %}
+   Quiz Web App - My Quizes
+{% endblock %}
+
+{% block body %}
+<div class="main-body-content">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-primary">
+                  <div class="panel-heading"><b>Student Dashboard</b></div>
+                  <div class="panel-body">
+                      <ul class="list-unstyled sidebar">
+                          <a href="{{url_for('student_dashboard', choice = 'MyQuizes')}}"><i class="glyphicon glyphicon-user"></i> &nbsp; My Quizes</a>
+                          <a href="{{url_for('student_dashboard', choice = 'ViewQuizes')}}"><i class="glyphicon glyphicon-tasks"></i> &nbsp; View Quizes</a>
+                      </ul>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <b>My Quizes</b>
+                    </div>
+                    <div class="panel-body">
+                        {% if student_dashboard_MyQuizes_err_msg %}
+                           <div class="alert alert-info">{{student_dashboard_MyQuizes_err_msg}}</div>
+                           <a href="{{url_for('student_dashboard', choice = 'ViewQuizes')}}" class="btn btn-primary">
+                               <b>Go To View Quizes &nbsp; <i class="glyphicon glyphicon-chevron-right"></i></b>
+                           </a>
+                        {% else %}
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <caption><b>Quizes Taken</b></caption>
+                                    <thead>
+                                      <tr>
+                                          <th>Quiz ID</th>
+                                          <th>Title</th>
+                                          <th>Subject</th>
+                                          <th>No. Questions</th>
+                                          <th>Quiz Time</th>
+                                          <th>Got Marks</th>
+                                          <th>Total Marks</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {% for myquiz in myquizes %}
+                                         <tr>
+                                             <td>{{myquiz['quiz_id']}}</td>
+                                             <td>{{myquiz['title']}}</td>
+                                             <td>{{myquiz['subject']}}</td>
+                                             <td>{{myquiz['no_questions']}}</td>
+                                             <td>{{myquiz['quiz_time']}} minutes</td>
+                                             <td>{{myquiz['student_marks']}}</td>
+                                             <td>{{myquiz['total_marks']}}</td>
+                                         </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

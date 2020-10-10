@@ -1,0 +1,82 @@
+{% extends 'register.html' %}
+{% block title %}
+  Online Quiz System - Student Dashboard
+{% endblock %}
+
+{% block body %}
+
+  <div class="main-body-content">
+
+      <div class="container">
+      <div class="row">
+          <!-- start sidebar  -->
+          <div class="col-md-4 col-lg-4 col-sm-12">
+
+              <div class="panel panel-primary">
+                  <div class="panel-heading"><b>Student Dashboard</b></div>
+                  <div class="panel-body">
+                      <ul class="list-unstyled sidebar">
+                          <a href="{{url_for('student_dashboard', choice = 'MyQuizes')}}"><i class="glyphicon glyphicon-user"></i> &nbsp; My Quizes</a>
+                          <a href="{{url_for('student_dashboard', choice = 'ViewQuizes')}}">
+                            <i class="glyphicon glyphicon-tasks"></i> &nbsp; View Quizes
+                          </a>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+          <!-- end sidebar  -->
+
+          <!-- Start main section  -->
+          <div class="col-md-8 col-lg-8 col-sm-12">
+              <div class="panel panel-primary">
+                  <div class="panel-heading">
+                      <b>View Quizes</b>
+                  </div>
+                  <div class="panel-body">
+                      {% if session['register_msg'] %}
+                          <div class="alert alert-info">{{ session.pop('register_msg', None) }}</div>
+                      {% endif %}
+                      {% if all_quizes_rows %}
+                         <div class="table-responsive">
+                             <table class="table">
+                                 <thead>
+                                    <tr>
+                                        <th>Quiz ID</th>
+                                        <th>Title</th>
+                                        <th>Subject</th>
+                                        <th>No. Questions</th>
+                                        <th>Quiz Time</th>
+                                        <th>Quiz Creator</th>
+                                        <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                   {% for row in all_quizes_rows %}
+                                      <tr>
+                                          <td>{{row['quiz_id']}}</td>
+                                          <td>{{row['title']}}</td>
+                                          <td>{{row['subject']}}</td>
+                                          <td>{{row['no_questions']}}</td>
+                                          <td>{{row['quiz_time']}} minutes</td>
+                                          <td>{{row['creator_name']}}</td>
+                                          <td>
+                                              <a href="{{url_for('student_dashboard', choice = 'TakeQuiz', quiz_id = row['quiz_id'])}}" class="btn btn-primary btn-xs">Take Quiz</a>
+                                          </td>
+                                      </tr>
+                                   {% endfor %}
+                                 </tbody>
+                             </table>
+                         </div>
+                      {% else %}
+                         <div>There are no quizes.</div>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+          <!-- end main section -->
+
+      </div>
+  </div>
+
+  </div>
+{% endblock %}
