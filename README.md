@@ -1,5 +1,5 @@
 # A Quiz Web Application
-Developed using Python and Flask where a student can register, login, take quiz, view results and teacher can register, login, create quiz,
+Developed a quiz web application using Python and Flask where a student can register, login, take quiz, view results and teacher can register, login, create quiz,
 view details and delete the quiz. Frontend of the application have been developed using HTML, CSS and Bootstrap.
 
 ## Install
